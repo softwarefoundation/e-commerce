@@ -1,0 +1,1 @@
+--insert into tb01_produto (id, nome, descricao) values (default,'Notebook Lenovo Thinkpad T480 Core i5 8ºG ssd 256GB 8GB Win 10 Pro Usado',' Marca: Lenovo - sku: P003680-V1 - Modelo: Thinkpad T480 - Marca processador: Intel - Placa gráfica: uhd Graphics 620 - Linha Processador: Core i5 8350Ugº - Memória Ram: 8GB - Capacidade hd: 500GB');

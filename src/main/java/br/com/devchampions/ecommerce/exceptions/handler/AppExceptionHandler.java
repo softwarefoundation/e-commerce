@@ -1,5 +1,6 @@
 package br.com.devchampions.ecommerce.exceptions.handler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
@@ -44,10 +47,18 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
-    @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
-    public ResponseEntity<?> invalidDataAccessResourceUsageException(InvalidDataAccessResourceUsageException e) {
+    @ExceptionHandler({InvalidDataAccessResourceUsageException.class})
+    public ResponseEntity<?> handleInvalidDataAccessResourceUsageException(InvalidDataAccessResourceUsageException e) {
         ProblemDetail problemDetail = prepararProblemDetail(ProblemDetailEnum.INTERNAL_SERVER_ERROR);
         problemDetail.getDetail().add(e.getMessage());
+        return prepararResponseEntity(problemDetail);
+    }
+
+    @ExceptionHandler({DataIntegrityViolationException.class})
+    public ResponseEntity<?> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        ProblemDetail problemDetail = prepararProblemDetail(ProblemDetailEnum.INTERNAL_SERVER_ERROR);
+        problemDetail.getDetail().add(e.getMessage());
+        printStackTrace(problemDetail, e);
         return prepararResponseEntity(problemDetail);
     }
 
@@ -70,6 +81,11 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
             return "";
         }
         return rejectedValue.toString();
+    }
+
+
+    private void printStackTrace(ProblemDetail problemDetail, Exception e) {
+        log.error(MessageFormat.format("Rastreamento de Erro | UUID: {0} : {1}", problemDetail.getUuid().toString(), e.getClass().getName()), e);
     }
 
 }

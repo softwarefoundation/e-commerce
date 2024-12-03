@@ -20,7 +20,7 @@ configurations {
 }
 
 repositories {
-	maven  Central()
+	mavenCentral()
 }
 
 dependencies {
