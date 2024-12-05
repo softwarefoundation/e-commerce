@@ -18,4 +18,5 @@ public class ProdutoDto {
     @NotBlank
     private String descricao;
 
+    private String imagem;
 }

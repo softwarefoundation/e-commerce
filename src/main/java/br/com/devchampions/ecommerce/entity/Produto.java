@@ -22,11 +22,12 @@ public class Produto {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nome", length = 255, nullable = false)
+    @Column(name = "nome", nullable = false)
     private String nome;
 
     @Column(name = "descricao", length = 1000, nullable = false)
     private String descricao;
 
-
+    @Column(name = "imagem")
+    private String imagem;
 }
