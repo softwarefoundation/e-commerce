@@ -60,6 +60,13 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return prepararResponseEntity(problemDetail);
     }
 
+    @ExceptionHandler({NullPointerException.class})
+    public ResponseEntity<?> handleNullPointerException(NullPointerException ex) {
+        ProblemDetail problemDetail = prepararProblemDetail(ProblemDetailEnum.INTERNAL_SERVER_ERROR);
+        problemDetail.getDetail().add(ex.getMessage());
+        printStackTrace(problemDetail, ex);
+        return prepararResponseEntity(problemDetail);
+    }
 
     private ProblemDetail prepararProblemDetail(ProblemDetailEnum problemDetailEnum) {
         ProblemDetail problemDetail = new ProblemDetail();
