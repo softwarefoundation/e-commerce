@@ -1,4 +1,4 @@
-package br.com.devchampions.ecommerce.security;
+package br.com.devchampions.ecommerce.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

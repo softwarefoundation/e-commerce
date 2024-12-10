@@ -1,5 +1,6 @@
-package br.com.devchampions.ecommerce.security;
+package br.com.devchampions.ecommerce.security.service;
 
+import br.com.devchampions.ecommerce.security.UserDetailsFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
