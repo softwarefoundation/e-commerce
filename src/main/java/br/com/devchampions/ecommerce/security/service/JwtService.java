@@ -1,5 +1,6 @@
 package br.com.devchampions.ecommerce.security.service;
 
+import br.com.devchampions.ecommerce.security.AccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +18,7 @@ public class JwtService {
     @Autowired
     private JwtEncoder encoder;
 
-    public String token(Authentication authentication) {
+    public AccessTokenResponse token(Authentication authentication) {
 
         Instant now = Instant.now();
         long expiry = 36000L;
@@ -36,9 +37,15 @@ public class JwtService {
                 .claim("scope", "ROLES")
                 .build();
 
-        return encoder.encode(
+
+        String jwt = encoder.encode(
                         JwtEncoderParameters.from(claims))
                 .getTokenValue();
+
+        AccessTokenResponse accessTokenResponse = new AccessTokenResponse();
+        accessTokenResponse.setAccessToken(jwt);
+
+        return accessTokenResponse;
     }
 
 }

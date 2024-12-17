@@ -2,7 +2,8 @@ package br.com.devchampions.ecommerce.security.http;
 
 public enum HttpAllowHeadersEnum {
 
-    CONTENT_TYPE("content-type");
+    CONTENT_TYPE("content-type"),
+    AUTHORIZATION("authorization");
 
 
     private String nome;

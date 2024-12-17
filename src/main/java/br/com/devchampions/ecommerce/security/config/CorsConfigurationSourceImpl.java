@@ -19,7 +19,7 @@ public class CorsConfigurationSourceImpl implements CorsConfigurationSource {
 
         corsConfiguration.setAllowedOrigins(List.of(HttpAllowedOriginsEnum.ECONMMERCE_FRONTEND.getUrl()));
         corsConfiguration.setAllowedMethods(List.of(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name()));
-        corsConfiguration.setAllowedHeaders(List.of(HttpAllowHeadersEnum.CONTENT_TYPE.getNome()));
+        corsConfiguration.setAllowedHeaders(List.of(HttpAllowHeadersEnum.CONTENT_TYPE.getNome(), HttpAllowHeadersEnum.AUTHORIZATION.getNome()));
 
         return corsConfiguration;
     }
