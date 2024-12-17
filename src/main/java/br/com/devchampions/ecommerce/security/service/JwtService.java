@@ -12,8 +12,12 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.stream.Collectors;
 
+import static br.com.devchampions.ecommerce.security.ConstantesSecurity.DEFAULT_AUTHORITIES_CLAIM_DELIMITER;
+import static br.com.devchampions.ecommerce.security.ConstantesSecurity.DEFAULT_AUTHORITIES_CLAIM_NAME;
+
 @Service
 public class JwtService {
+
 
     @Autowired
     private JwtEncoder encoder;
@@ -27,7 +31,7 @@ public class JwtService {
                 .getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors
-                        .joining(" "));
+                        .joining(DEFAULT_AUTHORITIES_CLAIM_DELIMITER));
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("www.e-commerce.com.br")
@@ -35,6 +39,7 @@ public class JwtService {
                 .expiresAt(now.plusSeconds(expiry))
                 .subject(authentication.getName())
                 .claim("authorities", authorities)
+                .claim(DEFAULT_AUTHORITIES_CLAIM_NAME, authorities)
                 .build();
 
 

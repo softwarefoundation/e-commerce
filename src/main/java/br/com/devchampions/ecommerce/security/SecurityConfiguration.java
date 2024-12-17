@@ -1,18 +1,17 @@
 package br.com.devchampions.ecommerce.security;
 
 import br.com.devchampions.ecommerce.security.config.CorsConfigurationSourceImpl;
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.jwk.OctetSequenceKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import static br.com.devchampions.ecommerce.security.ConstantesSecurity.DEFAULT_PREFIX_ESCOPE_;
 
 @Slf4j
 @Configuration
@@ -25,6 +24,9 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
+        configurarPermissoesDasRotas(httpSecurity);
+
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
@@ -32,16 +34,11 @@ public class SecurityConfiguration {
                 .cors(c -> c.configurationSource(configurationSource))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
 
-
         return httpSecurity.build();
     }
 
-
-//    @Bean
-//    JwtDecoder jwtDecoder() {
-//        log.info("JWT Decoder...");
-//        OctetSequenceKey key = new OctetSequenceKey.Builder("123456".getBytes()).algorithm(JWSAlgorithm.parse("HS256")).build();
-//        return NimbusJwtDecoder.withSecretKey(key.toSecretKey()).build();
-//    }
+    private void configurarPermissoesDasRotas(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/produto/**").hasAuthority(DEFAULT_PREFIX_ESCOPE_.concat("produto:cadastro")));
+    }
 
 }
