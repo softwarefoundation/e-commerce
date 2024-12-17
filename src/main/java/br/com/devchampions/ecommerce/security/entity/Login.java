@@ -2,24 +2,22 @@ package br.com.devchampions.ecommerce.security.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "tb03_users")
-public class User implements UserDetails {
+@Table(name = "tb03_login")
+public class Login {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +33,8 @@ public class User implements UserDetails {
     @Column(name = "enabled")
     private Boolean enabled;
 
-
-    @Transient
-    private List<GrantedAuthority> authorities;
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    private List<Authority> authorities;
 
     public Long getId() {
         return id;
@@ -47,12 +44,10 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    @Override
     public String getUsername() {
         return this.username;
     }
 
-    @Override
     public String getPassword() {
         return this.password;
     }
@@ -64,8 +59,5 @@ public class User implements UserDetails {
         return enabled;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.authorities;
-    }
+
 }

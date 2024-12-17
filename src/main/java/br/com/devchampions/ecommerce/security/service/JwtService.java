@@ -23,7 +23,7 @@ public class JwtService {
         Instant now = Instant.now();
         long expiry = 36000L;
 
-        String scope = authentication
+        String authorities = authentication
                 .getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors
@@ -33,8 +33,8 @@ public class JwtService {
                 .issuer("www.e-commerce.com.br")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
-                .subject("Tom")
-                .claim("scope", "ROLES")
+                .subject(authentication.getName())
+                .claim("authorities", authorities)
                 .build();
 
 
